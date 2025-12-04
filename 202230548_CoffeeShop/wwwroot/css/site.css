@@ -1,3 +1,56 @@
+
+.SmallImg {
+    height: 100px;
+    width: 100px;
+}
+
+.BorderTable {
+    border-collapse: collapse;
+    text-align: center;
+}
+.BorderTable th {
+    border: 1px solid #8B4513;
+    padding: 8px;
+    background-color: #D2B48C;
+}
+
+.BorderTable td {
+    border: 1px solid #8B4513;
+    padding: 8px;
+}
+
+.ImageFlexRow {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.HalfImg {
+    width: 48%;
+    height: auto;
+}
+
+.LinenBackground {
+    background-color: #FAF0E6;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.FontSizeLarge {
+    font-size: large;
+}
+
+.BoldText {
+    font-weight: bold;
+}
+
+.ColorFontBrown {
+    color: #8B4513;
+}
+
+
 html {
   font-size: 14px;
 }
