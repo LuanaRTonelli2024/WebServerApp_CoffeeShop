@@ -2,7 +2,74 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center ColorFontBrown">
+
+    @{
+        //variables
+        var amount = 12.50M;
+        var date = DateTime.Now.AddDays(5).ToString("dd/MM/yyyy");
+        var city = "Quebec";
+        string[] hockeyTeams = { "Canadiens", "Maple Leafs", "Oilers", "Flames", "Jets" };
+    }
+
+    <h1 class="display-4 BoldText">Welcome to NDG Coffee Shop</h1>
+
+    <p class="FontSizeLarge LinenBackground">
+        The perfect spot to enjoy freshly brewed coffee and tasty pastries. <br />
+        Relax in our cozy atmosphere while connecting with colleagues and friends over your favorite drink.
+    </p>
+
+    <div class="ImageFlexRow">
+        <img src="https://antdisplay.com/pub/media/wysiwyg/b_3_.jpg" class="HalfImg" alt="Coffee Shop" />
+        <img src="https://antdisplay.com/pub/media/wysiwyg/b_2_.jpg" class="HalfImg" alt="Coffee Shop Tables" />
+    </div>
+
+    <br /> 
+
+    <div class="LinenBackground">
+        <br />
+        <p class="BoldText FontSizeLarge">Are you into hockey? Be part of our hockey fan club!</p>
+
+        <div class="ImageFlexRow">
+            <div>
+                <table class="BorderTable">
+                    <tr>
+                        <th>Hockey Teams</th>
+                    </tr>
+                    @for (int i = 0; i < hockeyTeams.Length; i++)
+                    {
+                        <tr>
+                            <td>@hockeyTeams[i]</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div>
+                @if (hockeyTeams.Length >= 4)
+                {
+                    <img src="https://cdn.pixabay.com/photo/2022/12/11/04/11/thumbs-up-7648171_1280.png" class="SmallImg" alt="Thumb Up" />
+                }
+                else
+                {
+                    <img src="https://cdn.pixabay.com/photo/2025/02/07/07/25/thumbs-down-9389330_1280.png" class="SmallImg" alt="Thumb Down" />
+                }
+            </div>
+        </div>
+        <br />
+        <div>
+            @switch (city)
+            {
+                case "Montreal":
+                    <p>You live in @city!</p>
+                    ;
+                    break;
+                case "Quebec":
+                    <p>Please bring <strong>@amount CAD</strong> before <strong>@date</strong>!!!</p>
+                    ;
+                    break;
+            }
+        </div>
+    </div>
+    <br />
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core" class="TextBlue">building Web apps with ASP.NET Core</a>.</p>
 </div>
