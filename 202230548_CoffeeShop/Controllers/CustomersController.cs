@@ -22,7 +22,8 @@ namespace _202230548_CoffeeShop.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customer.ToListAsync());
+            var _202230548_CoffeeShopContext = _context.Customer.Include(c => c.City);
+            return View(await _202230548_CoffeeShopContext.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -34,6 +35,7 @@ namespace _202230548_CoffeeShop.Controllers
             }
 
             var customer = await _context.Customer
+                .Include(c => c.City)
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {
@@ -46,6 +48,7 @@ namespace _202230548_CoffeeShop.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
+            ViewData["CityId"] = new SelectList(_context.City, "CityId", "Name");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace _202230548_CoffeeShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Address,City,PostalCode,PhoneNumber,CreditCardNumber")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Address,CityId,PostalCode,PhoneNumber,CreditCardNumber,Email")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +66,7 @@ namespace _202230548_CoffeeShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CityId"] = new SelectList(_context.City, "CityId", "Name", customer.CityId);
             return View(customer);
         }
 
@@ -79,6 +83,7 @@ namespace _202230548_CoffeeShop.Controllers
             {
                 return NotFound();
             }
+            ViewData["CityId"] = new SelectList(_context.City, "CityId", "Name", customer.CityId);
             return View(customer);
         }
 
@@ -87,7 +92,7 @@ namespace _202230548_CoffeeShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CustomerId,FirstName,LastName,Address,City,PostalCode,PhoneNumber,CreditCardNumber")] Customer customer)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CustomerId,FirstName,LastName,Address,CityId,PostalCode,PhoneNumber,CreditCardNumber,Email")] Customer customer)
         {
             if (id != customer.CustomerId)
             {
@@ -114,6 +119,7 @@ namespace _202230548_CoffeeShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CityId"] = new SelectList(_context.City, "CityId", "Name", customer.CityId);
             return View(customer);
         }
 
@@ -126,6 +132,7 @@ namespace _202230548_CoffeeShop.Controllers
             }
 
             var customer = await _context.Customer
+                .Include(c => c.City)
                 .FirstOrDefaultAsync(m => m.CustomerId == id);
             if (customer == null)
             {

@@ -15,7 +15,7 @@ public partial class _202230548mvcprojectContext : DbContext
     {
     }
 
-    public virtual DbSet<City> Cities { get; set; }
+    public virtual DbSet<Customer> Customers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -23,21 +23,44 @@ public partial class _202230548mvcprojectContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<City>(entity =>
+        modelBuilder.Entity<Customer>(entity =>
         {
-            entity.ToTable("city");
+            entity.ToTable("customer");
 
-            entity.Property(e => e.CityId)
+            entity.HasIndex(e => e.CustomerId, "IX_customer").IsUnique();
+
+            entity.Property(e => e.CustomerId)
                 .HasDefaultValueSql("(newid())")
-                .HasColumnName("cityId");
-            entity.Property(e => e.Name)
+                .HasColumnName("customerId");
+            entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("name");
-            entity.Property(e => e.Province)
+                .HasColumnName("address");
+            entity.Property(e => e.CityId).HasColumnName("cityId");
+            entity.Property(e => e.CreditCardNumber)
+                .HasMaxLength(16)
+                .IsUnicode(false)
+                .HasColumnName("creditCardNumber");
+            entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("province");
+                .HasColumnName("email");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("firstName");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("lastName");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phoneNumber");
+            entity.Property(e => e.PostalCode)
+                .HasMaxLength(7)
+                .IsUnicode(false)
+                .HasColumnName("postalCode");
         });
 
         OnModelCreatingPartial(modelBuilder);
