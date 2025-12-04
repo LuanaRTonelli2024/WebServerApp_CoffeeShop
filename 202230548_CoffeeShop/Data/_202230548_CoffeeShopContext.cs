@@ -17,5 +17,6 @@ namespace _202230548_CoffeeShop.Data
         public DbSet<_202230548_CoffeeShop.Models.Customer> Customer { get; set; } = default!;
         public DbSet<_202230548_CoffeeShop.Models.Product> Product { get; set; } = default!;
         public DbSet<_202230548_CoffeeShop.Models.Sale> Sale { get; set; } = default!;
+        public DbSet<_202230548_CoffeeShop.Models.City> City { get; set; } = default!;
     }
 }

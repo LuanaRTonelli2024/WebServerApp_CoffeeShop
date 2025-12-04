@@ -19,8 +19,7 @@ public partial class Customer
     [StringLength(50)]
     public string Address { get; set; } = null!;
 
-    [StringLength(20)]
-    public string City { get; set; } = null!;
+    public Guid CityId { get; set; }
 
     [MinLength(6)]
     [StringLength(6)]
@@ -34,6 +33,12 @@ public partial class Customer
     [MinLength(16)]
     [StringLength(16)]
     public string CreditCardNumber { get; set; } = null!;
+
+    [EmailAddress]
+    [StringLength(50)]
+    public string Email { get; set; } = null!;
+
+    public virtual City? City { get; set; } = null!;
 
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }
