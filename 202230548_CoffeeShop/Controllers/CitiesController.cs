@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using _202230548_CoffeeShop.Data;
+using _202230548_CoffeeShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using _202230548_CoffeeShop.Data;
-using _202230548_CoffeeShop.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace _202230548_CoffeeShop.Controllers
 {
@@ -18,6 +21,53 @@ namespace _202230548_CoffeeShop.Controllers
         {
             _context = context;
         }
+
+
+
+        // GET: Cities/Search
+        public IActionResult Search()
+        {
+            return View();
+        }
+
+        // POST: Cities/Search
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search([Bind("CityId,Name,Province")] City city)
+        {
+            _context.Add(city);
+
+            //search for many cars with a partial make
+            List<City> foundCities = await _context.City
+                .Where(searchedCity => 
+                    (string.IsNullOrEmpty(city.Name) || searchedCity.Name.Contains(city.Name)) && 
+                    (string.IsNullOrEmpty(city.Province) || searchedCity.Province.Contains(city.Province)))
+                .ToListAsync();
+
+            //convert search results into a JSON string and place it into TempData
+            TempData["SearchResults"] = JsonConvert.SerializeObject(foundCities);
+            return RedirectToAction("SearchResults"); //redirect to another action
+        }
+
+        public IActionResult SearchResults()
+        {
+            string resultsJson = TempData["SearchResults"] as string;
+            var results = JsonConvert.DeserializeObject<List<City>>(resultsJson);
+
+            if (results.Count > 0)
+            {
+                ViewBag.SearchResultMessage = "We found " + results.Count + " city(ies)";
+            }
+            else
+            {
+                ViewBag.SearchResultMessage = "No cities found";
+            }
+            return View(results);
+        }
+
+
 
         // GET: Cities
         public async Task<IActionResult> Index()

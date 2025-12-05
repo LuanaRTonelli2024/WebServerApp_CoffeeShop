@@ -1,0 +1,25 @@
+﻿@model List<_202230548_CoffeeShop.Models.City>
+
+@{
+    ViewData["Title"] = "SearchResults";
+}
+
+<h1 class="BoldText">SearchResults</h1>
+
+<h4>City</h4>
+<hr />
+
+<ul>
+    @if (Model.Count > 0)
+    {
+        foreach (City city in Model)
+        {
+            <li> @city.Name of province @city.Province</li>
+        }
+    }
+</ul>
+
+<div>
+    <a asp-action="Search">Back to Search</a>
+</div>
+
